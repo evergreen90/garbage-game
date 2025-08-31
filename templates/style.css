@@ -1,0 +1,164 @@
+body {
+    font-family: 'Kosugi Maru', 'Yu Gothic', 'Hiragino Kaku Gothic Pro', Meiryo, sans-serif;
+    text-align: center;
+    margin: 20px;
+    padding: 0;
+    background-color: #fff7ee;
+}
+
+h1 {
+    font-size: 1.8em;
+    color: #ea5532;
+}
+
+.question {
+    font-size: 1.4em;
+    margin: 20px 10px 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.result {
+    font-size: 1.2em;
+    margin: 10px;
+    color: #444;
+    min-height: 1.5em;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.result.correct {
+    background-color: #dcffe4;
+    color: #0b6128;
+    animation: pop 0.3s ease;
+}
+
+.result.incorrect {
+    background-color: #ffe4e4;
+    color: #b10000;
+    animation: shake 0.3s ease;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+.choices {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.choices button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffefd5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.choices button:hover {
+    background-color: #ffdfb6;
+}
+
+.choices button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#timer {
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+button.start,
+.back-btn,
+.share-btn {
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+.summary {
+    margin-top: 30px;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.95em;
+}
+
+.summary table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary th,
+.summary td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.summary th {
+    background-color: #f8f8f8;
+}
+
+.note {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* 分別ヒント表示エリア */
+#hints {
+    text-align: left;
+    max-width: 600px;
+    margin: 20px auto;
+    font-size: 0.9em;
+}
+
+#hints h2 {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
+
+#hints ul {
+    list-style-type: disc;
+    margin-left: 0.5em;
+}
