@@ -132,4 +132,4 @@ function shareResult(score, total, accuracy) {
   const text = `ごみ分別クイズ\n正解数：${score}/${total}問（正解率：${accuracy}%）\n${detail ? detail + '。\n' : ''}#ごみ分別クイズ`;
   const url = location.href;
   const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-  window.open(tweet, '_blank');
+  window.open(tweet, '_blank');}

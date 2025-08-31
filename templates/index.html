@@ -14,16 +14,17 @@
     <div id="intro">ゲーム感覚でごみ分別を学びましょう！</div>
     <button class="start" onclick="startGame()">スタート</button>
     <div class="note">※ 一関地区広域行政組合ごみ分別辞典の公開データを基に作成しています ／ 公式情報は
-    <a href="https://www.gomisaku.jp/0161/?lang=ja" target="_blank" rel="noopener noreferrer">サイト</a>
-    をご確認ください</div>
+        <a href="https://www.gomisaku.jp/0161/?lang=ja" target="_blank" rel="noopener noreferrer">サイト</a>
+        をご確認ください
+    </div>
 
     <div id="game" style="display:none;">
         <div id="timer">残り時間: 60秒</div>
         <div id="question"></div>
         <div class="choices">
             <button onclick="answer('燃やすごみ')">燃やすごみ</button>
-            <button onclick="answer('燃やさないごみ')">燃やさないごみ</button>
-            <button onclick="answer('資源ごみ')">資源ごみ</button>
+            <button onclick="answer('燃やせないごみ')">燃やせないごみ</button>
+            <button onclick="answer('リサイクル')">リサイクル</button>
             <button onclick="answer('粗大ごみ')">粗大ごみ</button>
             <button onclick="answer('その他')">その他</button>
         </div>

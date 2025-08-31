@@ -30,7 +30,7 @@ def _read_csv_text_utf8_only(path: str) -> str:
 # カテゴリ5分類
 def simplify_category(s: str) -> str:
     s = (s or "").strip()
-    allowed = {"燃やすごみ", "燃やさないごみ", "資源ごみ", "粗大ごみ"}
+    allowed = {"燃やすごみ", "燃やせないごみ", "資源ごみ", "粗大ごみ"}
     if s in allowed:
         return s
     return "その他"
