@@ -6,14 +6,16 @@
     <title>ごみ分別クイズ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
     <div id="title">ごみ分別クイズ</div>
     <div id="intro">ゲーム感覚でごみ分別を学びましょう！</div>
     <button class="start" onclick="startGame()">スタート</button>
-    <div class="note">※ データはCSV（services/hiraizumi_garbage_dic.csv）を使用しています</div>
+    <div class="note">※ 一関地区広域行政組合ごみ分別辞典の公開データを基に作成しています ／ 公式情報は
+    <a href="https://www.gomisaku.jp/0161/?lang=ja" target="_blank" rel="noopener noreferrer">サイト</a>
+    をご確認ください</div>
 
     <div id="game" style="display:none;">
         <div id="timer">残り時間: 60秒</div>
@@ -23,7 +25,7 @@
             <button onclick="answer('燃やさないごみ')">燃やさないごみ</button>
             <button onclick="answer('資源ごみ')">資源ごみ</button>
             <button onclick="answer('粗大ごみ')">粗大ごみ</button>
-            <button onclick="answer('その他')">その他</button> <!-- 5択目を追加 -->
+            <button onclick="answer('その他')">その他</button>
         </div>
         <div id="result" class="result"></div>
     </div>

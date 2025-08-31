@@ -5,6 +5,7 @@ let timer;
 let timeLeft = 60;
 let answeredList = [];
 
+  //問題データの取得
 async function fetchQuestions(limit = 100) {
   const res = await fetch(`/api/quiz?limit=${limit}`);
   if (!res.ok) throw new Error("データ取得に失敗しました");

@@ -1,1 +1,25 @@
-.venv
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# Flask
+instance/
