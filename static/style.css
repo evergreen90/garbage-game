@@ -4,23 +4,31 @@ body {
     margin: 20px;
     padding: 0;
     background-color: #fff7ee;
+    font-size: 18px;
+    /* 全体の文字をやや大きく */
 }
 
-h1 {
-    font-size: 1.8em;
+#title {
+    font-size: 2rem;
+    /* タイトルを大きく */
+    font-weight: 700;
+    margin: 10px 0 16px;
     color: #ea5532;
 }
 
-.question {
+#question {
     font-size: 1.4em;
-    margin: 20px 10px 10px;
+    line-height: 1.6;
+    margin: 16px auto 10px;
     background-color: #fff;
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 12px 14px;
+    max-width: 640px;
 }
 
+
 .result {
-    font-size: 1.2em;
+    font-size: 1.3em;
     margin: 10px;
     color: #444;
     min-height: 1.5em;
@@ -83,8 +91,8 @@ h1 {
 .choices button {
     width: 100%;
     max-width: 300px;
-    padding: 12px;
-    font-size: 1em;
+    padding: 14px;
+    font-size: 1.125em;
     border: none;
     border-radius: 8px;
     background-color: #ffefd5;
@@ -101,15 +109,15 @@ h1 {
 }
 
 #timer {
-    font-size: 1.1em;
+    font-size: 1.2em;
     margin-top: 10px;
 }
 
 button.start,
 .back-btn,
 .share-btn {
-    font-size: 1.1em;
-    padding: 10px 20px;
+    font-size: 1.2em;
+    padding: 12px 24px;
     border-radius: 8px;
     margin: 10px;
 }
@@ -120,7 +128,7 @@ button.start,
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    font-size: 0.95em;
+    font-size: 1em;
 }
 
 .summary table {
@@ -131,7 +139,7 @@ button.start,
 .summary th,
 .summary td {
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 10px;
     text-align: center;
 }
 
@@ -143,22 +151,4 @@ button.start,
     font-size: 0.9em;
     color: #666;
     margin-top: 10px;
-}
-
-/* 分別ヒント表示エリア */
-#hints {
-    text-align: left;
-    max-width: 600px;
-    margin: 20px auto;
-    font-size: 0.9em;
-}
-
-#hints h2 {
-    font-size: 1.2em;
-    margin-bottom: 8px;
-}
-
-#hints ul {
-    list-style-type: disc;
-    margin-left: 0.5em;
 }
