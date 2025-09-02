@@ -28,8 +28,20 @@ def read_csv_text(csv_path):
 
 def make_simple_category(original_category):
     # 5つの分類にそろえる。なければ「その他」
-    allowed = ["燃やすごみ", "燃やせないごみ", "資源ごみ", "粗大ごみ"]
     s = (original_category or "").strip()
+    # 表記ゆれを「リサイクル」に統一
+    synonyms = {
+        "燃えるごみ": "燃やすごみ",
+        "可燃ごみ": "燃やすごみ",
+        "もやすごみ": "燃やすごみ",
+        "燃やさないごみ": "燃やせないごみ",
+        "不燃ごみ": "燃やせないごみ",
+        "資源ごみ": "リサイクル",
+        "資源ゴミ": "リサイクル",
+        "資源": "リサイクル",
+    }
+    s = synonyms.get(s, s)
+    allowed = ["燃やすごみ", "燃やせないごみ", "リサイクル", "粗大ごみ"]
     if s in allowed:
         return s
     return "その他"

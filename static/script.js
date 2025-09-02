@@ -13,12 +13,6 @@ async function fetchQuestions(limit = 100) {
   return json.items || [];
 }
 
-// ボタン表示名 → 内部で使う分類名（表記ゆれ対応）
-function normalizeChoice(choice) {
-  if (choice === 'リサイクル') return '資源ごみ';
-  return choice;
-}
-
 // タイマー表示を更新
 function updateTimer() {
   const t = document.getElementById('timer');
@@ -95,10 +89,9 @@ function showQuestion() {
 // 回答処理
 function answer(choice) {
   const current = quizData[currentIndex];
-  const correct = current.category;                 // 簡略化5分類の正解
-  const full = current.fullCategory || correct;     // 元の分類
-  const userChoice = normalizeChoice(choice);
-  const isCorrect = (userChoice === correct);
+  const correct = current.category;                 // サーバ側で「リサイクル」に統一済み
+  const full = current.fullCategory || correct;
+  const isCorrect = (choice === correct);
 
   const resultDiv = document.getElementById('result');
   document.querySelectorAll('.choices button').forEach(btn => {
@@ -122,7 +115,7 @@ function answer(choice) {
     item: current.item,
     correct: correct,
     full: full,
-    user: userChoice,
+    user: choice,
     result: isCorrect
   });
 
