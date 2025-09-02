@@ -2,81 +2,91 @@ import os
 import csv
 import time
 import random
-from io import StringIO
-from typing import List, Dict
-from flask import Flask, jsonify, render_template, send_from_directory, request
+from flask import Flask, jsonify, render_template, request
 
+# ファイルの場所を決める
 BASE_DIR = os.path.dirname(__file__)
 CSV_PATH = os.path.join(BASE_DIR, "services", "hiraizumi_garbage_dic.csv")
 
-# 10分キャッシュ（不要なら 0 に）
-_CACHE = {"data": None, "fetched": 0.0}
+# かんたんなキャッシュ（10分）
 CACHE_TTL_SEC = 60 * 10
+_CACHE_DATA = None
+_CACHE_TIME = 0.0
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
 
-# 文字コードの読み込み対応
-def _read_csv_text_utf8_only(path: str) -> str:
+def read_csv_text(csv_path):
+    # まずは UTF-8 で読んで、だめなら UTF-8-SIG でもう一回試す
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(csv_path, "r", encoding="utf-8") as f:
             return f.read()
     except UnicodeDecodeError:
-        # BOM付きUTF-8で再試行
-        with open(path, "r", encoding="utf-8-sig") as f:
+        with open(csv_path, "r", encoding="utf-8-sig") as f:
             return f.read()
 
 
-# カテゴリ5分類
-def simplify_category(s: str) -> str:
-    s = (s or "").strip()
-    allowed = {"燃やすごみ", "燃やせないごみ", "資源ごみ", "粗大ごみ"}
+def make_simple_category(original_category):
+    # 5つの分類にそろえる。なければ「その他」
+    allowed = ["燃やすごみ", "燃やせないごみ", "資源ごみ", "粗大ごみ"]
+    s = (original_category or "").strip()
     if s in allowed:
         return s
     return "その他"
 
 
-# 期待ヘッダ: ["_id","品名","ゴミの種類","出し方の注意点"]
-def _parse_csv_fixed_columns(csv_text: str) -> List[Dict]:
-    f = StringIO(csv_text)
+def parse_csv_to_records(csv_text):
+    # 期待するヘッダ: _id, 品名, ゴミの種類, 出し方の注意点
+    f = csv_text.splitlines()
     reader = csv.DictReader(f)
-    required = {"_id", "品名", "ゴミの種類", "出し方の注意点"}
-    if not reader.fieldnames or not required.issubset(set(reader.fieldnames)):
+    need = {"_id", "品名", "ゴミの種類", "出し方の注意点"}
+    if not reader.fieldnames or not need.issuperset(set(need)) or not need.issubset(set(reader.fieldnames)):
         raise RuntimeError("CSVヘッダが想定と異なります。必要: _id, 品名, ゴミの種類, 出し方の注意点")
 
-    out, seen = [], set()
+    records = []
+    seen = set()  # （品名, 元分類）の重複を防ぐ
     for row in reader:
         item = (row.get("品名") or "").strip()
-        full = (row.get("ゴミの種類") or "").strip()
+        full_category = (row.get("ゴミの種類") or "").strip()
         note = (row.get("出し方の注意点") or "").strip()
-        if not item or not full:
+
+        if not item or not full_category:
             continue
-        key = (item, full)
+
+        key = (item, full_category)
         if key in seen:
             continue
         seen.add(key)
-        out.append(
+
+        records.append(
             {
                 "item": item,
-                "category": simplify_category(full),  # 5分類
-                "fullCategory": full,  # 元の分類
-                "note": note,  # 注意点（今は未表示だが保持）
+                "category": make_simple_category(full_category),
+                "fullCategory": full_category,
+                "note": note,
             }
         )
-    return out
+
+    return records
 
 
-def get_dataset() -> List[Dict]:
+def load_dataset():
+    # キャッシュがあれば使う
+    global _CACHE_DATA, _CACHE_TIME
     now = time.time()
-    if _CACHE["data"] is not None and (now - _CACHE["fetched"] < CACHE_TTL_SEC):
-        return _CACHE["data"]
+    if _CACHE_DATA is not None and (now - _CACHE_TIME) < CACHE_TTL_SEC:
+        return _CACHE_DATA
+
+    # CSV を読んでパース
     if not os.path.exists(CSV_PATH):
         raise FileNotFoundError(f"{CSV_PATH} not found.")
-    text = _read_csv_text_utf8_only(CSV_PATH)
-    records = _parse_csv_fixed_columns(text)
-    _CACHE["data"] = records
-    _CACHE["fetched"] = now
-    return records
+    text = read_csv_text(CSV_PATH)
+    data = parse_csv_to_records(text)
+
+    # キャッシュ更新
+    _CACHE_DATA = data
+    _CACHE_TIME = now
+    return data
 
 
 @app.route("/")
@@ -84,11 +94,11 @@ def index():
     return render_template("index.html")
 
 
-# データを返す
 @app.route("/api/quiz")
 def api_quiz():
+    # データを読み込んで、ランダムにして、limit件返す
     limit = request.args.get("limit", default=100, type=int)
-    data = get_dataset()[:]
+    data = load_dataset()[:]
     random.shuffle(data)
     if limit > 0:
         data = data[:limit]

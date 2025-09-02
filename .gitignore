@@ -19,5 +19,5 @@ __pycache__/
 # Flask
 instance/
 
-+ db.sqlite
-+ __pycache__/
+# OS
+.DS_Store
