@@ -107,8 +107,8 @@ body {
     width: 100%;
     /* コンテナ幅いっぱい */
     min-height: 56px;
-    /* タップしやすい高さ */
-    font-size: 1.15em;
+    /* タップしやすい高さ # 1.15em -> 1.13em */
+    font-size: 1.13em;
     /* 文字もやや大きく */
     border: none;
     border-radius: 10px;
