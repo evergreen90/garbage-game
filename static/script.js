@@ -158,6 +158,9 @@ function endGame() {
   summaryHTML += '</table></div>';
   const game = document.getElementById('game');
   if (game) game.innerHTML = summaryHTML;
+  // 履歴保存（正解数・総数）
+  saveGameResult(score, total);
+
 }
 
 // 共有（Twitter）
@@ -169,4 +172,19 @@ function shareResult(score, total, accuracy) {
   const url = location.href;
   const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
   window.open(tweet, '_blank');
+}
+
+// === Results history integration ===
+async function saveGameResult(correctCount, totalCount) {
+  try {
+    const res = await fetch('/api/results', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correct: correctCount, total: totalCount })
+    });
+    // 成否確認だけ（レスポンス内容は使わない）
+    await res.json().catch(() => { });
+  } catch (e) {
+    console.warn('Failed to save result', e);
+  }
 }
