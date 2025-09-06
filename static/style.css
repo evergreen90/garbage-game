@@ -206,3 +206,32 @@ button.start,
         /* スマホではより大きく */
     }
 }
+
+/* タッチ端末で hover が残るのを無効化（PCだけ hover を効かせる） */
+@media (hover: hover) {
+    .choices button:hover {
+        background-color: #ffdfb6;
+    }
+}
+
+@media (hover: none) {
+    .choices button:hover {
+        background-color: #ffefd5;
+        /* もとの色に固定 */
+    }
+}
+
+/* 押下後に active/focus の色が残らないよう明示的に同色指定 */
+.choices button:focus,
+.choices button:focus-visible,
+.choices button:active {
+    background-color: #ffefd5;
+    /* もとの色に戻す */
+    outline: none;
+}
+
+/* モバイルSafariなどのタップ時のハイライト除去 */
+.choices button {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
