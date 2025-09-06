@@ -2,16 +2,15 @@ body {
     font-family: 'Kosugi Maru', 'Yu Gothic', 'Hiragino Kaku Gothic Pro', Meiryo, sans-serif;
     text-align: center;
     margin: 8px;
-    /* ← 20px → 8px に縮小 */
+    /* スクロール防止のため margin 縮小 */
     padding: 0;
     background-color: #fff7ee;
     font-size: 16px;
-    /* ← 18px → 16px に縮小 */
+    /* 少し小さめ */
 }
 
 #title {
     font-size: 1.6rem;
-    /* ← 少し小さめに */
     font-weight: 700;
     margin: 8px 0 12px;
     color: #ea5532;
@@ -19,73 +18,154 @@ body {
 
 #question {
     font-size: 1.2em;
-    /* ← 小さく */
     line-height: 1.4;
     margin: 12px auto 8px;
+    background-color: #fff;
+    border-radius: 10px;
     padding: 10px 12px;
     max-width: 90vw;
-    /* ← 画面幅に合わせる */
+    /* 画面幅にフィット */
 }
 
 .result {
     font-size: 1.1em;
-    /* ← 小さく */
     margin: 8px;
+    color: #444;
     min-height: 1.2em;
+    background-color: #fff;
+    border-radius: 8px;
     padding: 6px;
 }
 
+.result.correct {
+    background-color: #dcffe4;
+    color: #0b6128;
+    animation: pop 0.3s ease;
+}
+
+.result.incorrect {
+    background-color: #ffe4e4;
+    color: #b10000;
+    animation: shake 0.3s ease;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+/* --- 選択肢ボタンエリア --- */
 .choices {
-    gap: 8px;
-    max-width: 320px;
-    /* ← 400px → 320px に縮小 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+    /* PCではこれ以上広げない */
+    margin: 0 auto;
+    /* 中央寄せ */
 }
 
 .choices button {
     width: 100%;
-    max-width: 260px;
-    /* ← 300px → 260px に縮小 */
-    padding: 10px;
-    /* ← 14px → 10px */
-    font-size: 1em;
-    /* ← 少し小さく */
+    /* 横幅いっぱい */
+    min-height: 48px;
+    /* タップしやすい高さ */
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    background-color: #ffefd5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
 }
 
+.choices button:hover {
+    background-color: #ffdfb6;
+}
+
+.choices button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --- タイマー --- */
 #timer {
     font-size: 1em;
     margin-top: 8px;
 }
 
+/* --- 汎用ボタン --- */
 button.start,
 .back-btn,
 .share-btn {
     font-size: 1em;
-    /* ← 1.2em → 1em */
     padding: 10px 18px;
-    /* ← 縮小 */
+    border-radius: 8px;
     margin: 8px;
 }
 
+/* --- 結果表示（サマリー表） --- */
 .summary {
     margin-top: 20px;
+    text-align: left;
     max-width: 95vw;
-    /* ← 画面幅にフィット */
+    /* 画面幅に合わせる */
+    margin-left: auto;
+    margin-right: auto;
     font-size: 0.9em;
-    /* ← 少し小さく */
+}
+
+.summary table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .summary th,
 .summary td {
+    border: 1px solid #ccc;
     padding: 6px;
-    /* ← 10px → 6px */
+    text-align: center;
 }
 
+.summary th {
+    background-color: #f8f8f8;
+}
+
+/* --- 注意書き --- */
 .note {
     font-size: 0.8em;
+    color: #666;
     margin-top: 8px;
 }
 
-/* 追加：スマホ用にさらに調整するメディアクエリ */
+/* --- スマホ用レスポンシブ調整 --- */
 @media (max-width: 480px) {
     body {
         font-size: 15px;
@@ -96,9 +176,15 @@ button.start,
         font-size: 1.4rem;
     }
 
+    .choices {
+        max-width: 90%;
+        /* 画面幅の90%まで広げる */
+    }
+
     .choices button {
-        max-width: 240px;
-        font-size: 0.95em;
-        padding: 8px;
+        font-size: 1em;
+        padding: 12px;
+        min-height: 52px;
+        /* スマホではさらに高さ確保 */
     }
 }
