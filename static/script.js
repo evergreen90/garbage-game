@@ -141,6 +141,7 @@ function endGame() {
     <div class="summary">
     <table>
       <tr><th>#</th><th>品名</th><th>あなたの回答</th><th>正解（詳細）</th><th>結果</th></tr>
+    <p style="text-align:right;margin:0 8px;"><a href="/history">履歴を見る</a></p>>
   `;
 
   answeredList.forEach((entry, i) => {
