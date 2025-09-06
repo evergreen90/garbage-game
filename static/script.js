@@ -66,6 +66,11 @@ async function startGame() {
 
 // 問題を表示
 function showQuestion() {
+  // ★追加：前の回答ボタンに残ったフォーカスを解除
+  if (document.activeElement && document.activeElement.blur) {
+    document.activeElement.blur();
+  }
+
   if (currentIndex >= quizData.length) {
     endGame();
     return;
