@@ -169,7 +169,7 @@ function shareResult(score, total, accuracy) {
   const wrongs = answeredList.filter(e => !e.result);
   let detail = wrongs.map(e => `「${e.item}」は${e.full}`).join('、');
   if (detail.length > 100) detail = detail.substring(0, 97) + '…';
-  const text = `平泉町ごみ分別クイズ\n正解数：${score}/${total}問（正解率：${accuracy}%）\n${detail ? detail + '。\n' : ''}#ごみ分別クイズ`;
+  const text = `ゴミタツ~ゴミ分別クイズ(平泉町編)~\n正解数：${score}/${total}問（正解率：${accuracy}%）\n${detail ? detail + '。\n' : ''}#ごみ分別クイズ`;
   const url = location.href;
   const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
   window.open(tweet, '_blank');
