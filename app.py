@@ -17,7 +17,7 @@ _CACHE_TIME = 0.0
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
-
+# 履歴を保存するためのDB準備
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
@@ -35,7 +35,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-
+#CSVをUTF-8系で読み込めるように
 init_db()
 
 def read_csv_text(csv_path):
@@ -47,7 +47,7 @@ def read_csv_text(csv_path):
         with open(csv_path, "r", encoding="utf-8-sig") as f:
             return f.read()
 
-
+# 表記のゆれを許容する部分
 def make_simple_category(original_category):
     # 5つの分類にそろえる。なければ「その他」
     s = (original_category or "").strip()
@@ -76,19 +76,19 @@ def make_simple_category(original_category):
 
 def parse_csv_to_records(csv_text):
     # 期待するヘッダ: _id, 品名, ゴミの種類, 出し方の注意点
-    f = csv_text.splitlines()
+    f = csv_text.splitlines()       # CSVの中身を行ごとに分割してリスト化
     reader = csv.DictReader(f)
-    need = {"_id", "品名", "ゴミの種類", "出し方の注意点"}
+    need = {"_id", "品名", "ゴミの種類", "出し方の注意点"} #CSVに必須のヘッダ定義
     if not reader.fieldnames or not need.issuperset(set(need)) or not need.issubset(set(reader.fieldnames)):
         raise RuntimeError("CSVヘッダが想定と異なります。必要: _id, 品名, ゴミの種類, 出し方の注意点")
 
     records = []
     seen = set()  # （品名, 元分類）の重複を防ぐ
     for row in reader:
-        item = (row.get("品名") or "").strip()
+        item = (row.get("品名") or "").strip()  #strip()は前後の空白を除去
         full_category = (row.get("ゴミの種類") or "").strip()
         note = (row.get("出し方の注意点") or "").strip()
-
+        
         if not item or not full_category:
             continue
 
